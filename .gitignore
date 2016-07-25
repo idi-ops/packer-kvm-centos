@@ -1,0 +1,4 @@
+*.box
+*.iso
+*/artifacts/*
+*/packer_cache/
