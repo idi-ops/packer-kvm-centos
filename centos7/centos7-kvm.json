@@ -1,0 +1,66 @@
+{
+  "variables": {
+    "base_name": "template-centos72-x86_64",
+    "iso_name": "CentOS-7-x86_64-NetInstall-1511.iso",
+    "iso_url": "http://mirror.ci.ifes.edu.br/centos/7.2.1511/isos/x86_64/CentOS-7-x86_64-NetInstall-1511.iso",
+    "iso_checksum": "9ed9ffb5d89ab8cca834afce354daa70a21dcb410f58287d6316259ff89758f5",
+    "iso_checksum_type": "sha256",
+    "iso_path": "iso",
+    "ssh_username": "root",
+    "ssh_password": "root",
+    "disk_size": "10240"
+  },
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "{{ .Vars }} sudo -E bash '{{ .Path }}'",
+      "inline": [
+        "yum -y install epel-release",
+        "yum -y install ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/kvm-baseimage.yml",
+      "playbook_dir": "ansible"
+    }
+  ],
+
+  "builders": [
+    {
+      "name": "template-centos72-x86_64",
+      "type": "qemu",
+      "format": "qcow2",
+      "accelerator": "kvm",
+      "qemu_binary": "/usr/bin/qemu-kvm",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "disk_cache": "none",
+
+      "qemuargs": [[ "-m", "2048M" ],[ "-smp", "2" ]],
+
+      "ssh_wait_timeout": "30m",
+
+      "ssh_username": "{{ user `ssh_username` }}",
+      "ssh_password": "{{ user `ssh_password` }}",
+      "iso_urls": [
+        "{{ user `iso_path` }}/{{ user `iso_name` }}",
+        "{{ user `iso_url` }}"
+      ],
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+
+      "boot_command": [
+        "<tab> net.ifnames=0 biosdevname=0 text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks-kvm.cfg<enter><wait>"
+      ],
+
+      "disk_size": "{{ user `disk_size` }}",
+
+      "headless": "true",
+      "http_directory": "http",
+      "shutdown_command": "sudo /usr/sbin/shutdown -h now",
+      "output_directory": "artifacts/qemu"
+    }
+  ]
+}
