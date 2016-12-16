@@ -1,4 +1,5 @@
 *.box
 *.iso
-*/artifacts/*
-*/packer_cache/
+**/artifacts
+**/packer_cache
+**/iso

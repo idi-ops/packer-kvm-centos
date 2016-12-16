@@ -20,7 +20,7 @@ K := $(foreach exec, $(REQUIREMENTS), $(if $(shell type $(exec) 2>/dev/null)," i
 	$(error Command `$(exec)` not found in PATH)))
 
 
-all: prepare validate virtualbox kvm
+all: prepare validate kvm
 
 clean:
 	rm -f artifacts/*.box
@@ -35,9 +35,6 @@ prepare:
 validate:
 	$(PACKER_EXEC) validate $(PACKER_CONFIG)
 
-virtualbox: prepare validate
-	$(PACKER_EXEC) build -only=virtualbox-iso $(PACKER_CONFIG)
-
 kvm:
-	$(PACKER_EXEC) validate centos7-kvm.json
-	$(PACKER_EXEC) build centos7-kvm.json
+	$(PACKER_EXEC) validate $(PACKER_CONFIG)
+	$(PACKER_EXEC) build $(PACKER_CONFIG)

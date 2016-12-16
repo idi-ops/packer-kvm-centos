@@ -1,6 +1,0 @@
----
-
-nodejs_packages:
-  - nodejs
-  - npm
-  - nodejs-grunt-cli

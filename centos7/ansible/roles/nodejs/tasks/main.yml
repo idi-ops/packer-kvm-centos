@@ -1,6 +1,0 @@
----
-- name: Install nodejs-related packages
-  yum:
-    name: "{{ item }}"
-    state: latest
-  with_items: nodejs_packages
