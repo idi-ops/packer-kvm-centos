@@ -2,6 +2,10 @@
 
 Create VM templates for usage with libvirt/KVM virtualization
 
+## Rationale
+
+This packer repository differs significantly from [idi-ops/packer-centos](https://github.com/idi-ops/packer-centos), which is to be consumed by developers. At the cost of some code duplication, spagetthi code and unnecessary complexity is avoided by having separate repositories. Additionally, improvements can be made independently without fear of breaking the production-grade CentOS image with changes that only make sense for CentOS Vagrant boxes, and vice-versa.
+
 # Pre-requisites
 
  * libvirt/KVM
@@ -9,14 +13,14 @@ Create VM templates for usage with libvirt/KVM virtualization
  * jq
 
 
-# Build
+## Build
 
 ```
 $ cd centos7
 $ make
 ```
 
-# Deploy
+## Deploy
 
 For usage with virt-builder, an entry in the index.asc file needs to be created:
 
