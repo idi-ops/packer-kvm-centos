@@ -2,3 +2,4 @@
 *.iso
 **/artifacts
 **/packer_cache
+**/iso
