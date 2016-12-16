@@ -1,40 +1,43 @@
-# CentOS image for KVM/libvirt (IDRC-internal)
+# ops/packer
 
-This is a set of configuration files and scripts to provision virtual machine and container images in a deterministic way.
-
-## Rationale
-
-This packer repository differs significantly from [idi-ops/packer-centos](https://github.com/idi-ops/packer-centos), which is to be consumed by developers. At the cost of some code duplication, spagetthi code and unnecessary complexity is avoided by having separate repositories. Additionally, improvements can be made independently without fear of breaking the production-grade CentOS image with changes that only make sense for CentOS Vagrant boxes, and vice-versa.
+Create VM templates for usage with libvirt/KVM virtualization
 
 # Pre-requisites
 
  * libvirt/KVM
- * VirtualBox
- * Vagrant
- * Packer
+ * Packer (in /opt/packer)
  * jq
 
-It might be tricky to have many hypervisors running on the same build machine. Beware.
 
-# How to Build
-
-Vagrant:
+# Build
 
 ```
 $ cd centos7
-$ make validate
-$ make virtualbox
+$ make
 ```
 
-libvirt/KVM (to be used with virt-builder):
+# Deploy
+
+For usage with virt-builder, an entry in the index.asc file needs to be created:
 
 ```
-$ cd centos7
-$ make kvm
+[idrc-centos-73]
+name=CentOS 7.3 IDRC
+arch=x86_64
+file=template-centos73-x86_64.qcow2.xz
+checksum[sha512]=5ed11374668882c05cc0eff873dfeb00f74669994bbef9160957b8161d4f4cb1ca6622dfb5b380b55711994efe9988a638f59e2e3d46bb5eaed378fc05eb1d23
+format=qcow2
+size=10737418240
+compressed_size=250340872
+expand=/dev/vda1
 ```
 
-The libvirt/KVM template needs to be sysprepped before deploying:
+ * Size from `qemu-img info file.qcow2` (virtual size, in bytes)
 
-```
-$ virt-sysprep --operations 'abrt-data,bash-history,blkid-tab,crash-data,cron-spool,customize,dhcp-client-state,dhcp-server-state,dovecot-data,logfiles,lvm-uuids,machine-id,mail-spool,net-hostname,net-hwaddr,pacct-log,package-manager-cache,pam-data,puppet-data-log,rh-subscription-manager,rhn-systemid,rpm-db,samba-db-log,script,smolt-uuid,ssh-hostkeys,sssd-db-log,tmp-files,udev-persistent-net,utmp,yum-uuid,-ssh-userdir' -a file.qcow2
-```
+ * Compressed size from `ls -l file.qcow2` (in bytes)
+
+ * The checksum should be obtained from the compressed qcow2.xz image.
+
+Once the /var/lib/libvirt/templates/index.asc file has been updated on each KVM host, run `virt-builder --delete-cache` before deploying any VMs.
+
+The final qcow2.xz file should be copied over to /var/lib/libvirt/templates.

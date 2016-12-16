@@ -1,2 +1,0 @@
----
-vbox_version_file: "{{ ansible_env.HOME }}/.vbox_version"
