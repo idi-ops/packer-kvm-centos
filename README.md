@@ -1,4 +1,4 @@
-# ops/packer
+# packer-centos-internal-use
 
 Create VM templates for usage with libvirt/KVM virtualization
 
