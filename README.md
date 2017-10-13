@@ -25,14 +25,14 @@ $ make
 For usage with virt-builder, an entry in the index.asc file needs to be created:
 
 ```
-[idrc-centos-73]
-name=CentOS 7.3 IDRC
+[idrc-centos-74]
+name=CentOS 7.4 IDRC
 arch=x86_64
-file=template-centos73-x86_64.qcow2.xz
-checksum[sha512]=5ed11374668882c05cc0eff873dfeb00f74669994bbef9160957b8161d4f4cb1ca6622dfb5b380b55711994efe9988a638f59e2e3d46bb5eaed378fc05eb1d23
+file=template-centos74-x86_64.qcow2.xz
+checksum[sha512]=5015c2ac947445e9329d2503e1fcb68e1b9d2e39a53740d93f76a701709c26f73900a7e6df9825b32089ecb98fa7f9ded6898e0890651125f55903ab559094a5
 format=qcow2
 size=10737418240
-compressed_size=250340872
+compressed_size=263800068
 expand=/dev/vda1
 ```
 
