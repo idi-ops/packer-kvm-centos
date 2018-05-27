@@ -1,7 +1,7 @@
 {
   "builders": [
     {
-      "name": "template-centos75-x86_64",
+      "name": "template-centos-x86_64",
       "type": "qemu",
       "format": "qcow2",
       "accelerator": "kvm",
@@ -21,7 +21,7 @@
       "iso_checksum_type": "sha256",
 
       "boot_command": [
-        "<tab> net.ifnames=0 biosdevname=0 text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+        "<tab> net.ifnames=0 biosdevname=0 text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos7-kickstart.cfg<enter><wait>"
       ],
 
       "disk_size": "10240",
