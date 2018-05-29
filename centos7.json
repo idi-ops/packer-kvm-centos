@@ -1,7 +1,7 @@
 {
   "builders": [
     {
-      "name": "template-centos-x86_64",
+      "name": "template-centos7-x86_64",
       "type": "qemu",
       "format": "qcow2",
       "accelerator": "kvm",
@@ -26,7 +26,7 @@
 
       "disk_size": "10240",
 
-      "headless": "true",
+      "headless": "false",
       "http_directory": "http",
       "shutdown_command": "sudo /usr/sbin/shutdown -h now",
       "output_directory": "artifacts/qemu"
