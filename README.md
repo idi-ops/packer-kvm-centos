@@ -15,7 +15,7 @@ This packer repository differs significantly from [idi-ops/packer-centos](https:
 ## Build
 
 ```
-$ packer build centos7x.json
+$ packer build centos7.json
 ```
 
 ## Deploy
@@ -23,10 +23,10 @@ $ packer build centos7x.json
 For usage with virt-builder, an entry in the index.asc file needs to be created:
 
 ```
-[idrc-centos-7x]
-name=CentOS 7.x IDRC
+[idrc-centos7]
+name=CentOS 7 IDRC
 arch=x86_64
-file=template-centos7x-x86_64.qcow2.xz
+file=template-centos7-x86_64.qcow2.xz
 checksum[sha512]=5015c2ac947445e9329d2503e1fcb68e1b9d2e39a53740d93f76a701709c26f73900a7e6df9825b32089ecb98fa7f9ded6898e0890651125f55903ab559094a5
 format=qcow2
 size=10737418240
