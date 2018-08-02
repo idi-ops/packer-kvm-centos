@@ -27,7 +27,7 @@
       "disk_size": "10240",
 
       "headless": "false",
-      "http_directory": "http",
+      "http_directory": ".",
       "shutdown_command": "sudo /usr/sbin/shutdown -h now",
       "output_directory": "artifacts/qemu"
     }
