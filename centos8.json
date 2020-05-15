@@ -1,0 +1,61 @@
+{
+  "builders": [
+    {
+      "accelerator": "kvm",
+      "boot_command": [
+        "<tab> net.ifnames=0 biosdevname=0 text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos8-kickstart.cfg<enter><wait>"
+      ],
+      "disk_cache": "none",
+      "disk_interface": "virtio",
+      "disk_size": "10240",
+      "format": "qcow2",
+      "headless": "false",
+      "http_directory": ".",
+      "iso_checksum": "3ee3f4ea1538e026fff763e2b284a6f20b259d91d1ad5688f5783a67d279423b",
+      "iso_checksum_type": "sha256",
+      "iso_urls": "https://mirror.csclub.uwaterloo.ca/centos/8/isos/x86_64/CentOS-8.1.1911-x86_64-dvd1.iso",
+      "name": "template-centos8-x86_64",
+      "net_device": "virtio-net",
+      "output_directory": "artifacts/qemu",
+      "qemu_binary": "/usr/bin/qemu-kvm",
+      "qemuargs": [
+        [
+          "-m",
+          "2048M"
+        ],
+        [
+          "-smp",
+          "2"
+        ]
+      ],
+      "shutdown_command": "sudo /usr/sbin/shutdown -h now",
+      "ssh_password": "root",
+      "ssh_timeout": "30m",
+      "ssh_username": "root",
+      "type": "qemu"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "{{ .Vars }} sudo -E bash '{{ .Path }}'",
+      "inline": [
+        "dnf -y install epel-release",
+        "dnf -y install ansible"
+      ],
+      "type": "shell"
+    },
+    {
+      "playbook_dir": "ansible",
+      "playbook_file": "ansible/playbook.yml",
+      "type": "ansible-local"
+    },
+    {
+      "execute_command": "{{ .Vars }} sudo -E bash '{{ .Path }}'",
+      "inline": [
+        "dnf -y autoremove ansible"
+      ],
+      "type": "shell"
+    }
+  ]
+}
+
